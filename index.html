@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        
+        <link href="styles.css" rel="stylesheet" type="text/css">
+        
+        <script src="jquery-2.1.0.min.js" type="text/javascript"></script>
+        <script src="handlebars-v1.3.0.js" type="text/javascript"></script>
+        
+        <title>EFRT</title>
+    </head>
+    <body>
+        <div id="stage">
+            
+        </div>
+        
+        <script id="helloWorld-template" type="text/x-handlebars-template">
+            Hello, {{> formality}}!
+        </script>
+        
+        <script id="formality-partial" type="text/x-handlebars-template">
+            Mr. {{{tolower name}}}
+        </script>
+        
+        <script>
+            var stage = $("#stage");
+            
+            Handlebars.registerHelper('tolower', function(str) {
+                return str.toLowerCase();
+            });
+            
+            Handlebars.registerPartial("formality", $("#formality-partial").html());
+            
+            function renderTemplate(templateName, data) {
+                var template = Handlebars.compile($("#"+templateName+"-template").html());
+                var html = template(data);
+                stage.html(html);
+            }
+            
+            $(document).ready(function () {
+                renderTemplate("helloWorld", {name: "Puchie"});
+            });
+        </script>
+    </body>
+</html>
